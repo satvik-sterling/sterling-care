@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caregiver Service</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <header class="bg-white shadow p-4">
+        <h1 class="text-3xl font-bold text-center">Caregiver Services</h1>
+        <p class="text-center text-gray-500">Trust-driven caregiving service to match your family’s needs</p>
+    </header>
+
+    <main class="max-w-4xl mx-auto mt-8 p-4 bg-white shadow-lg rounded-lg">
+        <h2 class="text-2xl font-bold mb-4">Book a Caregiver</h2>
+        <form id="careForm" class="grid gap-4">
+            <!-- Input Fields -->
+            <div>
+                <label for="fullName" class="block text-sm font-bold">Full Name</label>
+                <input id="fullName" name="fullName" type="text" placeholder="Enter your full name"
+                       class="w-full p-2 border border-gray-300 rounded">
+            </div>
+            <div>
+                <label for="phoneNumber" class="block text-sm font-bold">Phone Number</label>
+                <input id="phoneNumber" name="phoneNumber" type="text" placeholder="Enter your phone number"
+                       class="w-full p-2 border border-gray-300 rounded">
+            </div>
+            <div>
+                <label for="email" class="block text-sm font-bold">Email Address (Optional)</label>
+                <input id="email" name="email" type="email" placeholder="Enter your email address"
+                       class="w-full p-2 border border-gray-300 rounded">
+            </div>
+            <div>
+                <label for="address" class="block text-sm font-bold">Address/Location</label>
+                <textarea id="address" name="address" placeholder="Enter address, area, city"
+                          class="w-full p-2 border border-gray-300 rounded"></textarea>
+            </div>
+            <!-- Add rest of fields similarly... -->
+            <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600">
+                Submit
+            </button>
+        </form>
+        <p id="responseMessage" class="text-sm mt-4"></p>
+    </main>
+
+    <script>
+        document.getElementById("careForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const formData = {
+                fullName: document.getElementById("fullName").value,
+                phoneNumber: document.getElementById("phoneNumber").value,
+                email: document.getElementById("email").value,
+                address: document.getElementById("address").value,
+            };
+            const response = await fetch("/submit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData),
+            });
+            const result = await response.json();
+            document.getElementById("responseMessage").innerText = result.message;
+        });
+    </script>
+</body>
+</html>
